@@ -96,9 +96,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mnist_test_lmdb</span><br><span class="line">mnist_train_lmdb</span><br></pre></td></tr></table></figure>
 <p>The structure of networks:<br><code>./examples/mnist/lenet_train_test.prototxt</code></p>
 <p>The parameters config of training:<br><code>./examples/mnist/lenet_solver.prototxt</code></p>
-<p>##Training</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .&#x2F;caffe</span><br><span class="line">.&#x2F;build&#x2F;tools&#x2F;caffe train --solver&#x3D;examples&#x2F;mnist&#x2F;lenet_solver.prototxt</span><br></pre></td></tr></table></figure>
-<p>The output model will in the path below:<br><code>/home/..../caffe/examples/mnist</code><br>context:</p>
+<h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd .&#x2F;caffe</span><br><span class="line">.&#x2F;build&#x2F;tools&#x2F;caffe train --solver&#x3D;examples&#x2F;mnist&#x2F;lenet_solver.prototxt</span><br></pre></td></tr></table></figure>
+<p>The output model will in the path below:<br><code>/home/..../caffe/examples/mnist</code></p>
+<p>context:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lenet_iter_10000.caffemodel</span><br><span class="line">lenet_iter_10000.solverstate</span><br></pre></td></tr></table></figure>
 
 <h2 id="Testing"><a href="#Testing" class="headerlink" title="Testing"></a>Testing</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd caffe</span><br><span class="line">.&#x2F;build&#x2F;tools&#x2F;caffe.bin test -model&#x3D;examples&#x2F;mnist&#x2F;lenet_train_test.prototxt -weights&#x3D;examples&#x2F;mnist&#x2F;lenet_iter_10000.caffemodel</span><br></pre></td></tr></table></figure>
