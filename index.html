@@ -142,34 +142,23 @@
 </ul>
 <p>看到如下结果说明已经创建好并进入容器了：</p>
 <h3 id="1-4-docker常用命令"><a href="#1-4-docker常用命令" class="headerlink" title="1.4 docker常用命令"></a>1.4 docker常用命令</h3><ul>
-<li><p>退出容器：</p>
-<p><code>exit</code></p>
+<li><p>退出容器：<code>exit</code></p>
 </li>
-<li><p>查看正在运行的容器：</p>
-<p><code>docker container ls</code></p>
-<p>或者</p>
-<p><code>docker ps</code></p>
+<li><p>查看正在运行的容器：<code>docker container ls</code> 或者<code>docker ps</code></p>
 </li>
-<li><p>查看所有的容器：</p>
-<p><code>docker container ls -a</code></p>
+<li><p>查看所有的容器：<code>docker container ls -a</code></p>
 </li>
-<li><p>启动容器：</p>
-<p><code>docker container start shadow</code></p>
+<li><p>启动容器：<code>docker container start shadow</code></p>
 </li>
-<li><p>进入正在运行的容器：</p>
-<p><code>docker exec -it shadow /bin/bash</code></p>
+<li><p>进入正在运行的容器：<code>docker exec -it shadow /bin/bash</code></p>
 </li>
-<li><p>停止容器：</p>
-<p><code>docker container stop shadow</code></p>
+<li><p>停止容器：<code>docker container stop shadow</code></p>
 </li>
-<li><p>删除容器：</p>
-<p><code>docker container rm shadow</code></p>
+<li><p>删除容器：<code>docker container rm shadow</code></p>
 </li>
-<li><p>删除镜像：</p>
-<p><code>docker image rm caffe2ai/caffe2</code></p>
+<li><p>删除镜像：<code>docker image rm caffe2ai/caffe2</code></p>
 </li>
-<li><p>复制文件：</p>
-<p><code>docker cp f61fe8c1b847:/usr/share/nginx/html/index.html ~/1.test</code></p>
+<li><p>复制文件：<code>docker cp f61fe8c1b847:/usr/share/nginx/html/index.html ~/1.test</code></p>
 <p>其中<code>f61fe8c1b847</code>为容器ID</p>
 </li>
 </ul>
