@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>docker的使用 &amp; jupyter的安装与配置 | StrongestBubble</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="0. 前言docker的优点：  可简化环境配置过程  每个container（相当与虚拟机）独立运行，从而避免用户间的配置冲突  不同项目使用不同container，从而避免各种包与依赖的不兼容  可分享container给项目成员，节省成员从头配置环境的时间   jupyter notebook的优点：  相比于黑白界面的命令行，界面美观和人机交互较好  数据的可视化做的很好（e.g., 图片">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker的使用 &amp; jupyter的安装与配置">
+<meta property="og:url" content="http://yoursite.com/2020/10/02/docker-jupyterNotebook/index.html">
+<meta property="og:site_name" content="StrongestBubble">
+<meta property="og:description" content="0. 前言docker的优点：  可简化环境配置过程  每个container（相当与虚拟机）独立运行，从而避免用户间的配置冲突  不同项目使用不同container，从而避免各种包与依赖的不兼容  可分享container给项目成员，节省成员从头配置环境的时间   jupyter notebook的优点：  相比于黑白界面的命令行，界面美观和人机交互较好  数据的可视化做的很好（e.g., 图片">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-01T23:34:04.000Z">
+<meta property="article:modified_time" content="2020-10-02T01:05:55.311Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="StrongestBubble" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">StrongestBubble</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-docker-jupyterNotebook" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/02/docker-jupyterNotebook/" class="article-date">
+  <time datetime="2020-10-01T23:34:04.000Z" itemprop="datePublished">2020-10-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      docker的使用 &amp; jupyter的安装与配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0-前言"><a href="#0-前言" class="headerlink" title="0. 前言"></a>0. 前言</h2><p>docker的优点：</p>
+<ul>
+<li><p>可简化环境配置过程</p>
+</li>
+<li><p>每个container（相当与虚拟机）独立运行，从而避免用户间的配置冲突</p>
+</li>
+<li><p>不同项目使用不同container，从而避免各种包与依赖的不兼容</p>
+</li>
+<li><p>可分享container给项目成员，节省成员从头配置环境的时间</p>
+</li>
+</ul>
+<p>jupyter notebook的优点：</p>
+<ul>
+<li><p>相比于黑白界面的命令行，界面美观和人机交互较好</p>
+</li>
+<li><p>数据的可视化做的很好（e.g., 图片的展示，各种表格和作图）</p>
+</li>
+</ul>
+<h2 id="1-docker的使用"><a href="#1-docker的使用" class="headerlink" title="1. docker的使用"></a>1. docker的使用</h2><h3 id="1-1-为docker使用者添加sudo权限"><a href="#1-1-为docker使用者添加sudo权限" class="headerlink" title="1.1 为docker使用者添加sudo权限"></a>1.1 为docker使用者添加sudo权限</h3><ul>
+<li><p>创建docker组：</p>
+<p><code>sudo groupadd docker</code></p>
+</li>
+<li><p>将当前用户加入docker组：</p>
+<p><code>sudo gpasswd -a $&#123;USER&#125; docker</code></p>
+<p>（注意：有时<code>$&#123;USER&#125;</code>无效，应该用<code>echo $&#123;USER&#125; </code>进行查看。）</p>
+</li>
+<li><p>重启服务：</p>
+<p><code>sudo service docker restart</code></p>
+<p>（注意：重启docker时应照顾其他docker的使用者，避免他们的数据丢失与运行程序中断）</p>
+</li>
+<li><p>刷新docker成员：</p>
+<p><code>newgrp - docker</code></p>
+</li>
+<li><p>查看docker成员以验证是否添加成功：</p>
+<p><code>cat /etc/group | grep docker</code></p>
+</li>
+</ul>
+<h3 id="1-2-查找并下载镜像"><a href="#1-2-查找并下载镜像" class="headerlink" title="1.2 查找并下载镜像"></a>1.2 查找并下载镜像</h3><p>在 <a href="hub.docker.com">docker hub</a> 下载所需镜像，所使用下载命令行：</p>
+<p><code>docker pull caffe2ai/caffe2</code></p>
+<p>通过如下命令查看下载情况：</p>
+<p><code>docker image ls</code></p>
+<h3 id="1-3-创建容器"><a href="#1-3-创建容器" class="headerlink" title="1.3 创建容器"></a>1.3 创建容器</h3><p>在镜像的基础上创建自己的容器：</p>
+<p><code>docker run --runtime=nvidia --name shadow -p 2736:2736 -p 2737:2737 -it -v /home/tom/DISK/DISK1/wenqing/:/home/wenqing/ caffe2ai/caffe2 /bin/bash</code></p>
+<p>以上的参数解释如下：</p>
+<ul>
+<li><code>--runtime=nvidia</code> 表示容器的运行可以使用GPU，若无GPU,则无需添加此参数</li>
+<li><code>shadow</code> 表示所创建容器的名称</li>
+<li><code>2736:2736</code> 表示端口映射(主机端口：容器端口)，可以多个端口映射，其作用为容器与外界互联网连接的桥梁，为后面<code>jupyter notebook</code>提供端口，通过查看其他容器端口映射（使用命令 <code>docker container ls -a</code> 得到其他容器PORTS信息）来避免不同容器使用同一端口映射。</li>
+<li><code>/home/tom/DISK/DISK1/wenqing:/home/wenqing</code> 表示挂载目录映射（宿主机的地址：容器内部的地址），在容器<code>/home/wenqing</code>目录中进行存储数据即是在主机<code>/home/tom/DISK/DISK1/wenqing</code>目录中进行存储数据</li>
+<li><code>caffe2ai/caffe2 </code> 表示所使用的镜像；</li>
+<li><code>/bin/bash</code> 表示初始指令，创建好这个container后直接使用<code>/bin/bash</code>运行</li>
+</ul>
+<p>看到如下结果说明已经创建好并进入容器了：</p>
+<h3 id="1-4-docker常用命令"><a href="#1-4-docker常用命令" class="headerlink" title="1.4 docker常用命令"></a>1.4 docker常用命令</h3><ul>
+<li><p>退出容器：</p>
+<p><code>exit</code></p>
+</li>
+<li><p>查看正在运行的容器：</p>
+<p><code>docker container ls</code></p>
+<p>或者</p>
+<p><code>docker ps</code></p>
+</li>
+<li><p>查看所有的容器：</p>
+<p><code>docker container ls -a</code></p>
+</li>
+<li><p>启动容器：</p>
+<p><code>docker container start shadow</code></p>
+</li>
+<li><p>进入正在运行的容器：</p>
+<p><code>docker exec -it shadow /bin/bash</code></p>
+</li>
+<li><p>停止容器：</p>
+<p><code>docker container stop shadow</code></p>
+</li>
+<li><p>删除容器：</p>
+<p><code>docker container rm shadow</code></p>
+</li>
+<li><p>删除镜像：</p>
+<p><code>docker image rm caffe2ai/caffe2</code></p>
+</li>
+<li><p>复制文件：</p>
+<p><code>docker cp f61fe8c1b847:/usr/share/nginx/html/index.html ~/1.test</code></p>
+<p>其中<code>f61fe8c1b847</code>为容器ID</p>
+</li>
+</ul>
+<h2 id="2-jupyter-notebook的安装与配置"><a href="#2-jupyter-notebook的安装与配置" class="headerlink" title="2. jupyter notebook的安装与配置"></a>2. jupyter notebook的安装与配置</h2><p>首先确保已安装 <code>python</code> 和 <code>pip</code>。</p>
+<p>安装jupyter:</p>
+<p><code>pip install jupyter</code></p>
+<p>生成jupyter配置文件:</p>
+<p><code>jupyter notebook --generate-config</code></p>
+<p>修改jupyter配置文件:</p>
+<p><code>vim ~/.jupyter/jupyter_notebook_config.py</code></p>
+<p>其中，所需修改内容如下：</p>
+<ul>
+<li><code>c.NotebookApp.ip = &#39;*&#39;</code></li>
+<li><code>c.NotebookApp.port = 2736</code></li>
+<li><code>c.NotebookApp.open_browser = False</code></li>
+<li><code>c.NotebookApp.allow_root = True</code></li>
+<li><code>c.NotebookApp.notebook_dir = ’/home/wenqing/’</code></li>
+</ul>
+<p>修改jupyter登录密码：</p>
+<p><code>jupyter notebook password</code></p>
+<p>或</p>
+<p><code>python -c &quot;import IPython;print(IPython.lib.passwd())&quot;</code>输出sha1码复制到配置文件中去(<code>c.NotebookApp.password = u&#39;sha1:991ec9cd2f39:522598e19891bab1ecaa3a9072e71f45811af9f2&#39;</code>)。</p>
+<p>再次启动jupyter notebook:</p>
+<p><code>jupyter notebook</code></p>
+<p>在浏览器输入：</p>
+<p><code>your_domain_or_IP:2736</code></p>
+<p>至此完毕。</p>
+<h2 id="3-经验"><a href="#3-经验" class="headerlink" title="3. 经验"></a>3. 经验</h2><p>使用<code>docker hub</code>上的镜像来生成容器，进入容器后请谨慎使用<code>pip</code>和<code>apt</code>进行包的升级，很大概率会导致各种包和依赖关系不兼容，从而破坏了原来的环境配置。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/02/docker-jupyterNotebook/" data-id="ckfrjpwl40000j8um73qx8p4k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/05/Run-Mnist-in-Caffe/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Run Mnist in Caffe</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/10/02/docker-jupyterNotebook/">docker的使用 &amp; jupyter的安装与配置</a>
+          </li>
+        
+          <li>
+            <a href="/2020/09/05/Run-Mnist-in-Caffe/">Run Mnist in Caffe</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/29/MLP/">MLP</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/28/post-title/">Hexo实操</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/27/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
